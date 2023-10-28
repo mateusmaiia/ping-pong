@@ -2,6 +2,14 @@ const canvasEl = document.querySelector("canvas"),
  canvasCtx = canvasEl.getContext("2d") 
 
  const lineWidth = 15
+ const field = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    draw: () => {
+        canvasCtx.fillStyle = "#286047" //cor
+        canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+    }
+ }
 
 function setup(){
     // canvasEl.width = window.innerWidth
@@ -10,13 +18,12 @@ function setup(){
     // canvasCtx.height = window.innerHeight
 
     //assim é melhor:
-    canvasEl.width = canvasCtx.width = window.innerWidth
-    canvasEl.height = canvasCtx.height = window.innerHeight
+    canvasEl.width = canvasCtx.width = field.width
+    canvasEl.height = canvasCtx.height = field.height
 }
 function draw(){
     //desenho campo
-    canvasCtx.fillStyle = "#286047" //cor
-    canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+    field.draw()
 
     const x = window.innerWidth / 2 - lineWidth / 2,
     y = 0,
@@ -44,7 +51,10 @@ function draw(){
     canvasCtx.textBaseline = "top"
     canvasCtx.fillStyle = "#01341D"
     canvasCtx.fillText("3", window.innerWidth / 4, 50)
-    canvasCtx.fillText("3", window.innerWidth / 4 + window.innerWidth / 2, 50)
+    canvasCtx.fillText("1", window.innerWidth / 4 + window.innerWidth / 2, 50)
+
+
+    +
 }
 
 setup()
