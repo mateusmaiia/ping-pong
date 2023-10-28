@@ -47,6 +47,17 @@ const canvasEl = document.querySelector("canvas"),
     }
  }
 
+ const ball = {
+    x: 300,
+    y: 200,
+    r: 20,
+    draw: function(){
+        canvasCtx.beginPath()
+        canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
+        canvasCtx.fill()
+    }
+ }
+
 function setup(){
     // canvasEl.width = window.innerWidth
     // canvasCtx.width = window.innerWidth
@@ -71,9 +82,7 @@ function draw(){
     rightPaddle.draw()
 
     //desenha a bolinha
-    canvasCtx.beginPath()
-    canvasCtx.arc(200, 300, 20, 0, 2 * Math.PI, false)
-    canvasCtx.fill()
+    ball.draw()
 
     //desenhar o placar
     canvasCtx.font = "bold 72px Arial"
