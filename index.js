@@ -47,11 +47,25 @@ const canvasEl = document.querySelector("canvas"),
     }
  }
 
+ const score = {
+    human: 1,
+    computer: 2,
+    draw: function(){
+        canvasCtx.font = "bold 72px Arial"
+        canvasCtx.textAlign = "center"
+        canvasCtx.textBaseline = "top"
+        canvasCtx.fillStyle = "#01341D"
+        canvasCtx.fillText(this.human, field.width / 4, 50)
+        canvasCtx.fillText(this.computer, field.width / 4 + field.width / 2, 50)
+    }
+}
+
  const ball = {
-    x: 300,
-    y: 200,
+    x: 370,
+    y: 120,
     r: 20,
     draw: function(){
+        canvasCtx.fillStyle = "#ffffff"
         canvasCtx.beginPath()
         canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
         canvasCtx.fill()
@@ -71,26 +85,17 @@ function setup(){
 function draw(){
     //desenho campo
     field.draw()
-
     //desenho linha central
     line.draw()
-
     //desenha raquete esquerda
     leftPaddle.draw()
-
     //desenha raquete direita
     rightPaddle.draw()
-
+    //desenhar o placar
+    score.draw()
     //desenha a bolinha
     ball.draw()
 
-    //desenhar o placar
-    canvasCtx.font = "bold 72px Arial"
-    canvasCtx.textAlign = "center"
-    canvasCtx.textBaseline = "top"
-    canvasCtx.fillStyle = "#01341D"
-    canvasCtx.fillText("3", window.innerWidth / 4, 50)
-    canvasCtx.fillText("1", window.innerWidth / 4 + window.innerWidth / 2, 50)
 }
 
 setup()
