@@ -5,9 +5,23 @@ const canvasEl = document.querySelector("canvas"),
  const field = {
     width: window.innerWidth,
     height: window.innerHeight,
-    draw: () => {
+    draw: function() {
         canvasCtx.fillStyle = "#286047" //cor
-        canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+        canvasCtx.fillRect(0, 0, this.width, this.height)
+    }
+ }
+
+ const line = {
+    width: 15,
+    height: field.height,
+    draw: function() {
+        canvasCtx.fillStyle = "#ffffff",
+        canvasCtx.fillRect(
+            field.width / 2 - this.width / 2,
+            0,
+            this.width,
+            this.height
+        )
     }
  }
 
@@ -25,14 +39,8 @@ function draw(){
     //desenho campo
     field.draw()
 
-    const x = window.innerWidth / 2 - lineWidth / 2,
-    y = 0,
-    width = lineWidth,
-    height = window.innerHeight
-
     //desenho linha central
-    canvasCtx.fillStyle = ("#ffffff")
-    canvasCtx.fillRect(x, y, width, height)
+    line.draw()
 
     //desenha raquete esquerda
     canvasCtx.fillRect(10, 100, lineWidth, 200)
@@ -52,9 +60,6 @@ function draw(){
     canvasCtx.fillStyle = "#01341D"
     canvasCtx.fillText("3", window.innerWidth / 4, 50)
     canvasCtx.fillText("1", window.innerWidth / 4 + window.innerWidth / 2, 50)
-
-
-    +
 }
 
 setup()
