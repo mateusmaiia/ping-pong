@@ -48,9 +48,14 @@ const canvasEl = document.querySelector("canvas"),
     y: 100,
     width: line.width,
     height: 200,
+    _move: function(){
+        this.y = ball.y
+    },
     draw: function(){
         canvasCtx.fillStyle = "#ffffff",
         canvasCtx.fillRect(this.x, this.y, this.width, this.height)
+
+        this._move()
     }
  }
 
@@ -68,13 +73,35 @@ const canvasEl = document.querySelector("canvas"),
 }
 
  const ball = {
-    x: 370,
-    y: 120,
+    x: 0,
+    y: 0,
     r: 20,
     speed: 6,
+    directionX: 1,                                                                          //+1 vai pra baixo. -1 pra cima.
+    directionY: 1,
+    _calcPosition: function(){
+        //verifica as laterais superior e inferior.
+        if(
+            (this.y - this.r < 0 && this.directionY < 0) ||
+            (this.y > field.height - this.r && this.directionY > 0)
+          ){
+            //rebate a bola invertendo o sinal do eixo Y.
+            this._reverseY()
+        }
+    },
+    _reverseX: function(){
+        //1 * -1 = -1
+        //-1 * -1 = 1
+        this.directionX *= -1
+    },
+    _reverseY: function(){
+        //1 * -1 = -1
+        //-1 * -1 = -1
+        this.directionY *= -1
+    },
     _move:function(){
-        this.x += 1 * this.speed
-        this.y += 1 * this.speed
+        this.x += this.directionX * this.speed
+        this.y += this.directionY * this.speed
     } ,
     draw: function(){
         canvasCtx.fillStyle = "#ffffff"
@@ -83,6 +110,7 @@ const canvasEl = document.querySelector("canvas"),
         canvasCtx.fill()
 
         this._move()
+        this._calcPosition()
     }
  }
 
