@@ -48,8 +48,16 @@ const canvasEl = document.querySelector("canvas"),
     y: 100,
     width: line.width,
     height: 200,
+    speed: 5,
     _move: function(){
-        this.y = ball.y
+        if(this.y + this.height / 2 < ball.y + ball.r){
+            this.y += this.speed 
+        }else{
+            this.y -= this.speed
+        }
+    },
+    speedUp: function(){
+        this.speed += 2
     },
     draw: function(){
         canvasCtx.fillStyle = "#ffffff",
@@ -60,8 +68,14 @@ const canvasEl = document.querySelector("canvas"),
  }
 
  const score = {
-    human: 1,
-    computer: 2,
+    human: 0,
+    computer: 0,
+    incriseHuman: function(){
+        this.human++
+    },
+    incriseComputer: function(){
+        this.computer++
+    },
     draw: function(){
         canvasCtx.font = "bold 72px Arial"
         canvasCtx.textAlign = "center"
@@ -76,10 +90,35 @@ const canvasEl = document.querySelector("canvas"),
     x: 0,
     y: 0,
     r: 20,
-    speed: 6,
-    directionX: 1,                                                                          //+1 vai pra baixo. -1 pra cima.
+    speed: 5,
+    directionX: 1,                                                                 //+1 vai pra baixo. -1 pra cima.
     directionY: 1,
     _calcPosition: function(){
+        //verifica se o jogador 1 fez um ponto (x > largura do campo)
+        if(this.x > field.width - this.r - rightPaddle.width - gapX){
+            //verifica se a raquete direita está no ponto y da bola
+            if(this.y + this.r > rightPaddle.y  && this.y - this.r < rightPaddle.y + rightPaddle.height){
+                //rebate a bola invertendo o sinal de X
+                this._reverseX()
+            }else{
+                //pontuar o jogador 1
+                score.incriseHuman()
+                this._pointUp()
+            }
+        }
+        //verifica se o jogador 2 fez um ponto (x < 0)
+        if( this.x < this.r + leftPaddle.width + gapX){
+            //verifica se a raquete esquerda está na posição Y da bola.
+            if(this.y + this.r> leftPaddle.y && this.y - this.r < leftPaddle.y + leftPaddle.height){
+                 //rebate a bola invertendo o sinal de X
+                 this._reverseX()   
+            }else{
+                //pontuar jogador 2
+                score.incriseComputer()
+                this._pointUp()
+            }
+        }
+
         //verifica as laterais superior e inferior.
         if(
             (this.y - this.r < 0 && this.directionY < 0) ||
@@ -98,6 +137,15 @@ const canvasEl = document.querySelector("canvas"),
         //1 * -1 = -1
         //-1 * -1 = -1
         this.directionY *= -1
+    },
+    _speedUp: function(){
+        this.speed += 2
+    },
+    _pointUp: function(){
+        this._speedUp()
+        rightPaddle.speedUp()
+        this.x = field.width / 2
+        this.y = field.height / 2
     },
     _move:function(){
         this.x += this.directionX * this.speed
