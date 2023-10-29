@@ -2,6 +2,8 @@ const canvasEl = document.querySelector("canvas"),
  canvasCtx = canvasEl.getContext("2d"),
  gapX = 10
 
+ const mouse = {x: 0, y: 0}
+
  const field = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -27,13 +29,18 @@ const canvasEl = document.querySelector("canvas"),
 
  const leftPaddle = {
     x: gapX,
-    y: 100,
+    y: 0,
     width: line.width,
     height: 200,
+    _move: function(){
+        this.y = mouse.y - this.height / 2
+    },
     draw: function(){
         canvasCtx.fillStyle = "#ffffff",
         canvasCtx.fillRect(this.x, this.y, this.width, this.height)
+        this._move()
     }
+
  }
 
  const rightPaddle = {
@@ -113,7 +120,7 @@ window.animateFrame = (function () {
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
         function (callback){
-            return window.setTimeout(callback, 1000 / 60)
+            return window.setInterval(callback, 1000 / 60)
         }
     )
 })()
@@ -125,3 +132,10 @@ function main(){
 
 setup()
 main()
+
+canvasEl.addEventListener('mousemove', function(e){
+    mouse.x = e.pageX
+    mouse.y = e.pageY
+
+    console.log(mouse)
+})
